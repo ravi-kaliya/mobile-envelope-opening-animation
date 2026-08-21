@@ -5,16 +5,10 @@ import sr2 from "@/assets/sr-2.webp";
 import sr3 from "@/assets/sr-3.webp";
 import sr4 from "@/assets/sr-4.webp";
 import {
-  CalendarPlus,
-  Check,
   ChevronDown,
-  Clock,
   Heart,
   MapPin,
-  PartyPopper,
   RotateCcw,
-  Send,
-  Shirt,
 } from "lucide-react";
 import Ornament from "./Ornament";
 import FallingLeaves from "./FallingLeaves";
@@ -94,45 +88,11 @@ const VENUE_NAME = "Noura Chandigarh - The Green Escape";
 const VENUE_ADDR = "Near Ramgarh fort,  SAS Nagar, Chandigarh, India";
 const MAPS_URL = `https://share.google/3BVla34oZgAiPlCbh`;
 const ANNIVERSARY_DATE = new Date("2026-12-08T20:00:00");
-const RSVP_KEY = "rsvp-Sachin-Rukman";
 
 /** scroll-reveal delay helper */
 const rv = (d?: string): CSSProperties => ({ ["--d" as string]: d ?? "0s" });
 
-interface RsvpData {
-  name: string;
-  attending: "yes" | "no";
-  guests: number;
-  notes: string;
-}
 
-function downloadICS() {
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//SachinRukman//25thAnniversary//EN",
-    "CALSCALE:GREGORIAN",
-    "BEGIN:VEVENT",
-    "UID:Sachin-Rukman-25th-anniversary-2026@you-are-invited",
-    "DTSTAMP:20260210T090000Z",
-    "DTSTART:20260720T160000Z",
-    "DTEND:20260720T230000Z",
-    "SUMMARY:Sachin & Rukman's 25th Anniversary",
-    "DESCRIPTION:Celebration at 4:00 PM followed by cocktails, dinner and dancing. Attire: garden formal — blush, sage & cream.",
-    `LOCATION:${VENUE_NAME}\\, ${VENUE_ADDR.replace(/,/g, "\\,")}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
-  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Sachin-Rukman-25th-Anniversary.ics";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1200);
-}
 
 function useCountdown(target: Date) {
   const calc = () => {
@@ -189,17 +149,6 @@ export default function Invitation({
   const [entered, setEntered] = useState(false);
   const t = useCountdown(ANNIVERSARY_DATE);
 
-  const [form, setForm] = useState<RsvpData>(() => {
-    try {
-      const raw = localStorage.getItem(RSVP_KEY);
-      if (raw) return JSON.parse(raw) as RsvpData;
-    } catch {
-      /* ignore */
-    }
-    return { name: "", attending: "yes", guests: 1, notes: "" };
-  });
-  const [submitted, setSubmitted] = useState(() => !!localStorage.getItem(RSVP_KEY));
-  const [error, setError] = useState("");
 
   /* Animate the sheet up after mount */
   useEffect(() => {
@@ -236,23 +185,6 @@ export default function Invitation({
 
   useScrollReveal(rootRef, entered);
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name.trim()) {
-      setError("Please write your name so we know you're coming.");
-      return;
-    }
-    setError("");
-    try {
-      localStorage.setItem(RSVP_KEY, JSON.stringify(form));
-    } catch {
-      /* ignore */
-    }
-    setSubmitted(true);
-    rootRef.current
-      ?.querySelector(".rsvp")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   const countdownCells: Array<[number, string]> = [
     [t.days, "Days"],
@@ -261,26 +193,6 @@ export default function Invitation({
     [t.secs, "Secs"],
   ];
 
-  const detailCards = [
-    {
-      Icon: Clock,
-      title: "The Celebration",
-      lines: ["4:00 in the afternoon", VENUE_NAME],
-      d: ".05s",
-    },
-    {
-      Icon: PartyPopper,
-      title: "The Toast",
-      lines: ["Cocktails & dinner to follow", "The Rose Garden Pavilion"],
-      d: ".15s",
-    },
-    {
-      Icon: Shirt,
-      title: "Dress Code",
-      lines: ["Garden formal", "Blush, sage & cream palette"],
-      d: ".25s",
-    },
-  ];
 
   return (
     <div ref={rootRef} className={`invite${entered ? " in" : ""}${leaving ? " leaving" : ""}`}>
