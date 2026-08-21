@@ -1,0 +1,627 @@
+/* =====================================================
+   Full-screen animated envelope (blush wedding style)
+   ===================================================== */
+
+:root {
+  --taupe: #8a5d47;
+  --taupe-deep: #7a4b37;
+  --gold-deep: #8a5a1c;
+  --ease-flap: cubic-bezier(0.66, -0.06, 0.3, 1);
+}
+
+.env-screen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(100vw, 480px); /* mobile width on every device */
+  transform: translateX(-50%);
+  overflow: hidden;
+  background: var(--env-bg, #ecc3b0);
+  font-family: var(--font-sans, "Jost", ui-sans-serif, system-ui, sans-serif);
+  perspective: 1400px;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  border-left: 1px solid rgba(199, 74, 110, 0.28);
+  border-right: 1px solid rgba(199, 74, 110, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 0 60px -6px rgba(122, 42, 68, 0.4),
+    0 0 140px -10px rgba(122, 42, 68, 0.35);
+}
+
+/* =====================================================
+   Tablet / desktop: present as a floating phone device.
+   Fixed layers (flap, invite sheet, petals, frame) stay
+   inside the device because the screen is transformed.
+   ===================================================== */
+@media (min-width: 768px) and (min-height: 660px) {
+  .env-screen {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    width: auto;
+    height: min(856px, 92vh);
+    aspect-ratio: 400 / 856;
+    max-width: 92vw;
+    transform: translate(-50%, -50%);
+    border: 12px solid #241422;
+    outline: 1.5px solid rgba(255, 255, 255, 0.14);
+    outline-offset: 2px;
+    border-radius: 56px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 30px 70px -18px rgba(90, 28, 58, 0.55),
+      0 10px 28px rgba(70, 18, 44, 0.35),
+      0 0 120px -20px rgba(180, 90, 130, 0.3);
+  }
+  /* Dynamic island camera pill */
+  .env-screen::before {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 27px;
+    border-radius: 999px;
+    background: #120e16;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+      inset 0 -3px 5px rgba(255, 255, 255, 0.03);
+    z-index: 90;
+  }
+  /* Power button on the right edge */
+  .env-screen::after {
+    content: "";
+    position: absolute;
+    right: -15px;
+    top: 22%;
+    width: 4px;
+    height: 88px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(90deg, #3a2c3e, #241a28);
+    z-index: 40;
+  }
+}
+
+.serif {
+  font-family: var(--font-serif, "Cormorant Garamond"), "Playfair Display", Georgia, serif;
+}
+
+/* Shared ornate pattern — identical on face & flap so they align perfectly */
+.pattern {
+  background-color: var(--env-bg, #ecc3b0);
+  background-image:
+    radial-gradient(130% 85% at 50% 40%, rgba(255, 244, 234, 0.34), rgba(255, 236, 224, 0.05) 46%, rgba(150, 80, 58, 0.18) 100%),
+    var(--pattern-url);
+  background-size: cover;
+  background-position: center;
+}
+
+/* ---------------- Face ---------------- */
+.face {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: transform 1.15s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+  animation: faceIn 0.9s ease both;
+}
+.env-screen.is-open .face {
+  transform: scale(1.045); /* cinematic push-in as it opens */
+}
+
+/* ---------------- Confetti burst on open ---------------- */
+.burst {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 0;
+  height: 0;
+  z-index: 46;
+  pointer-events: none;
+}
+.burst span {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  display: block;
+  box-shadow: 0 1px 2px rgba(122, 42, 68, 0.25);
+  animation: burstFly 1.15s cubic-bezier(0.16, 0.84, 0.32, 1) var(--delay, 0s) both;
+}
+@keyframes burstFly {
+  0% { transform: translate(0, 0) rotate(0) scale(0.6); opacity: 0; }
+  12% { opacity: 1; transform: translate(calc(var(--dx) * 0.25), calc(var(--dy) * 0.25)) rotate(calc(var(--rot) * 0.3)) scale(1); }
+  75% { opacity: 1; }
+  100% {
+    transform: translate(var(--dx), calc(var(--dy) + 40px)) rotate(var(--rot)) scale(0.55);
+    opacity: 0;
+  }
+}
+
+/* ---------------- Periodic light sweep across the envelope ---------------- */
+.face::after,
+.flap::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  z-index: 2;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.16) 50%, transparent 58%);
+  transform: translateX(-130%);
+  animation: sweepAcross 7.5s ease-in-out 1.8s infinite;
+  pointer-events: none;
+}
+@keyframes sweepAcross {
+  0%, 42% { transform: translateX(-130%); }
+  78%, 100% { transform: translateX(130%); }
+}
+
+@keyframes faceIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.inner-shade {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 58%;
+  background: linear-gradient(180deg, rgba(118, 58, 42, 0.34), rgba(118, 58, 42, 0) 82%);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.45s;
+}
+.env-screen.is-open .inner-shade {
+  opacity: 1;
+}
+
+/* ---------------- Revealed monogram ---------------- */
+.reveal {
+  position: absolute;
+  top: 12%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(22px) scale(0.94);
+  transition: opacity 0.7s ease 0.55s, transform 0.75s cubic-bezier(0.2, 1.3, 0.4, 1) 0.55s;
+  pointer-events: none;
+}
+.env-screen.is-open .reveal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.mono-ring {
+  position: relative;
+  width: clamp(92px, 27vw, 124px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1.5px solid rgba(138, 90, 28, 0.8);
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  color: var(--taupe-deep);
+  font-size: 1.7rem;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 24px -6px rgba(122, 75, 55, 0.4);
+}
+.mono-ring::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(138, 90, 28, 0.38);
+}
+.mono-ring .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold-deep);
+  opacity: 0.8;
+}
+
+.save {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.46em;
+  text-indent: 0.46em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+.date {
+  margin: 0;
+  font-size: 1.12rem;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: var(--taupe-deep);
+}
+
+/* ---------------- "You are invited" block ---------------- */
+.invited {
+  position: absolute;
+  top: 59%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  text-align: center;
+  animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) 0.15s both;
+}
+.orn {
+  display: block;
+  width: min(250px, 64vw);
+  height: auto;
+  margin: 0 auto;
+  color: var(--taupe);
+  opacity: 0.85;
+}
+.orn.sm {
+  width: min(150px, 42vw);
+}
+.orn-flip {
+  transform: rotate(180deg);
+}
+.invited-title {
+  margin: 14px 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: clamp(1.05rem, 4.8vw, 1.5rem);
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  color: var(--taupe-deep, #7c4f3a);
+}
+.invited-heart {
+  display: inline-flex;
+  margin-top: 10px;
+  color: var(--taupe);
+  opacity: 0.9;
+  animation: heartbeat 1.8s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  12% { transform: scale(1.3); }
+  24% { transform: scale(1); }
+  36% { transform: scale(1.16); }
+}
+
+/* ---------------- Buttons ---------------- */
+.controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(44px + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) 0.35s both;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--taupe-deep);
+  background: rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  padding: 0.68rem 1.15rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px -6px rgba(122, 75, 55, 0.35);
+  transition: transform 0.2s ease, opacity 0.45s ease, background 0.3s ease;
+}
+.pill:active {
+  transform: scale(0.94);
+}
+.env-screen.is-open .btn-reveal {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.env-screen:not(.is-open) .btn-undo {
+  opacity: 0.55;
+}
+
+/* ---------------- Corners ---------------- */
+.corner {
+  position: absolute;
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: rgba(122, 86, 68, 0.8);
+  border: 1px solid rgba(122, 86, 68, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) 0.5s both;
+}
+.corner:active {
+  transform: scale(0.92);
+}
+.corner-tr {
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: 16px;
+}
+.corner-br {
+  bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+  right: 18px;
+}
+.pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  animation: musPulse 2.4s ease-out infinite;
+}
+@keyframes musPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 214, 140, 0.55); }
+  100% { box-shadow: 0 0 0 16px rgba(255, 214, 140, 0); }
+}
+
+/* ---------------- Gold dust motes ---------------- */
+.mote {
+  position: absolute;
+  z-index: 2;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 232, 172, 0.95);
+  box-shadow: 0 0 10px 2px rgba(255, 214, 140, 0.45);
+  opacity: 0;
+  animation: moteFloat 7s ease-in-out infinite;
+}
+.m1 { top: 34%; left: 14%; animation-delay: 0s; }
+.m2 { top: 62%; left: 84%; animation-delay: 1.6s; }
+.m3 { top: 47%; left: 8%; animation-delay: 3.1s; }
+.m4 { top: 72%; left: 24%; animation-delay: 4.4s; }
+@keyframes moteFloat {
+  0% { transform: translateY(14px); opacity: 0; }
+  35% { opacity: 0.85; }
+  65% { opacity: 0.85; }
+  100% { transform: translateY(-52px); opacity: 0; }
+}
+
+/* ---------------- Cast shadow of flap ---------------- */
+.cast {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  clip-path: polygon(0 0, 100% 0, 50% 56%);
+  background: radial-gradient(58% 62% at 50% 30%, rgba(96, 42, 30, 0.18), rgba(96, 42, 30, 0) 78%);
+  filter: blur(8px);
+  transform: translateY(7px);
+  transition: opacity 0.45s ease 0.15s;
+  pointer-events: none;
+}
+.env-screen.is-open .cast {
+  opacity: 0;
+}
+
+/* ---------------- Flap ---------------- */
+.flap {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: transform 1.1s var(--ease-flap) 0.28s;
+  cursor: pointer;
+  will-change: transform;
+  /* crisp V-edge silhouette shadow that follows the flap as it swings */
+  filter: drop-shadow(0 5px 7px rgba(110, 35, 62, 0.32));
+  animation: faceIn 0.9s ease both;
+}
+.env-screen.is-open .flap {
+  transform: rotateX(-167deg);
+  pointer-events: none;
+}
+
+.flap-sheen {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 244, 236, 0.05) 32%, rgba(140, 70, 50, 0.12) 80%, rgba(120, 55, 40, 0.3));
+  pointer-events: none;
+}
+
+.flap-label {
+  position: absolute;
+  top: 9%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  pointer-events: none;
+  animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) 0.08s both;
+}
+.flap-small {
+  margin: 0;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+.flap-names {
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.1rem, 4.8vw, 1.45rem);
+  letter-spacing: 0.05em;
+  color: var(--taupe-deep);
+}
+
+/* ---------------- Gold wax seal ---------------- */
+.seal {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  width: clamp(104px, 30vw, 138px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  filter: drop-shadow(0 14px 22px rgba(106, 45, 30, 0.45));
+  transition: transform 0.6s cubic-bezier(0.5, 0, 0.4, 1), opacity 0.45s ease 0.12s;
+}
+.seal:active {
+  transition-duration: 0.15s;
+  transform: translate(-50%, -50%) scale(0.92);
+}
+.env-screen.is-open .seal {
+  transform: translate(-50%, -50%) scale(0.2) rotate(-35deg);
+  opacity: 0;
+  pointer-events: none;
+}
+.seal-in {
+  display: block;
+  animation: sealPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+}
+@keyframes sealPop {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.wax-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wax-txt {
+  font-family: var(--font-sans, "Jost"), "Century Gothic", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3.2px;
+  fill: #6f4413;
+}
+
+.seal-glow {
+  position: absolute;
+  inset: -16%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 222, 150, 0.6), rgba(255, 222, 150, 0) 68%);
+  filter: blur(10px);
+  animation: glowPulse 2.6s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+.env-screen.is-open .seal-glow {
+  opacity: 0;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+/* ---------------- Envelope style picker ---------------- */
+.theme-picker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+  z-index: 22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) 0.42s both;
+}
+.tp-label {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--taupe, #8a5d47);
+  opacity: 0.85;
+}
+.tp-row {
+  display: flex;
+  gap: 10px;
+  pointer-events: auto;
+}
+.swatch {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--env-bg, #ecc3b0);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 6px 14px -6px rgba(122, 42, 68, 0.45);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.swatch:active {
+  transform: scale(0.88);
+}
+.swatch.active {
+  transform: scale(1.08);
+  border-color: var(--taupe-deep, #b8486a);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.65),
+    0 0 0 5px var(--taupe-deep, rgba(184, 72, 106, 0.5)),
+    0 10px 18px -8px rgba(122, 42, 68, 0.5);
+}
+.sw-mono {
+  font-size: 0.95rem;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(60, 20, 40, 0.75);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.swatch.active .sw-mono {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------------- Shared entrance ---------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .flap,
+  .face,
+  .seal,
+  .reveal,
+  .inner-shade {
+    transition-duration: 0.35s !important;
+    transition-delay: 0s !important;
+  }
+  .mote,
+  .seal-glow,
+  .invited-heart,
+  .pulse-ring {
+    animation: none !important;
+  }
+}

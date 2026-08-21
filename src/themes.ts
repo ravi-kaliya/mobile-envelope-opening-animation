@@ -1,0 +1,170 @@
+import patternBlush from "./assets/pattern.jpg";
+import patternSage from "./assets/pattern-sage.jpg";
+import patternLilac from "./assets/pattern-lilac.jpg";
+import patternNoir from "./assets/pattern-noir.jpg";
+import patternWine from "./assets/pattern-wine.jpg";
+
+export interface Theme {
+  id: string;
+  name: string;
+  short: string; /* swatch monogram */
+  pattern: string;
+  /** CSS custom properties applied to .env-screen (inherited by the invite) */
+  vars: Record<string, string>;
+}
+
+export const THEMES: Theme[] = [
+  {
+    id: "blush",
+    name: "Blush Rose",
+    short: "R",
+    pattern: patternBlush,
+    vars: {}, /* :root defaults */
+  },
+  {
+    id: "sage",
+    name: "Sage & Ivory",
+    short: "S",
+    pattern: patternSage,
+    vars: {
+      /* envelope */
+      "--env-bg": "#e3ebd6",
+      "--taupe": "#74855c",
+      "--taupe-deep": "#556b44",
+      /* invite typography */
+      "--font-serif": '"EB Garamond", "Cormorant Garamond", Georgia, serif',
+      "--font-sans": '"Karla", "Jost", ui-sans-serif, sans-serif',
+      /* invite accents */
+      "--ink": "#3c4632",
+      "--ink-soft": "#85906e",
+      "--rose": "#7d9b5f",
+      "--rose-deep": "#567a3e",
+      "--rose-soft": "#e3edd2",
+      "--line": "#cfddc0",
+      "--paper": "#fbfdf6",
+      /* bands */
+      "--band-bg": "#8aa86e",
+      "--band-a": "rgba(158, 181, 128, 0.94)",
+      "--band-b": "rgba(125, 155, 95, 0.94)",
+      "--band-c": "rgba(93, 129, 69, 0.94)",
+      /* veils */
+      "--hv-a": "rgba(58, 82, 48, 0.38)",
+      "--hv-b": "rgba(44, 66, 36, 0.72)",
+      "--qv-a": "rgba(74, 97, 56, 0.52)",
+      "--qv-b": "rgba(63, 86, 45, 0.62)",
+      /* buttons + bits */
+      "--btn-bg": "linear-gradient(140deg, #587242, #3f552c)",
+      "--acc-bg": "linear-gradient(140deg, #9db27c, #7d9b5f 50%, #5d7e42)",
+      "--sel-bg": "linear-gradient(160deg, #eef5e4, #dae8c8)",
+      "--step-bg": "#e6f0d8",
+      "--tape": "rgba(194, 214, 170, 0.72)",
+      "--frame-a": "rgba(88, 106, 64, 0.42)",
+      "--frame-c": "rgba(94, 114, 62, 0.6)",
+    },
+  },
+  {
+    id: "lilac",
+    name: "Lavender Mist",
+    short: "L",
+    pattern: patternLilac,
+    vars: {
+      "--env-bg": "#e7dff3",
+      "--taupe": "#8d7cb0",
+      "--taupe-deep": "#6d58a0",
+      "--font-serif": '"Playfair Display", "Cormorant Garamond", Georgia, serif',
+      "--font-sans": '"Outfit", "Jost", ui-sans-serif, sans-serif',
+      "--ink": "#463b66",
+      "--ink-soft": "#8d7fb0",
+      "--rose": "#9b7fe0",
+      "--rose-deep": "#7558c4",
+      "--rose-soft": "#e6dcf8",
+      "--line": "#d9cdf0",
+      "--paper": "#fbf9ff",
+      "--band-bg": "#a58add",
+      "--band-a": "rgba(179, 154, 230, 0.94)",
+      "--band-b": "rgba(150, 128, 216, 0.94)",
+      "--band-c": "rgba(122, 99, 196, 0.94)",
+      "--hv-a": "rgba(73, 52, 110, 0.4)",
+      "--hv-b": "rgba(47, 34, 79, 0.74)",
+      "--qv-a": "rgba(112, 84, 168, 0.5)",
+      "--qv-b": "rgba(70, 52, 110, 0.62)",
+      "--btn-bg": "linear-gradient(140deg, #6c4fb4, #4a328e)",
+      "--acc-bg": "linear-gradient(140deg, #b49ae8, #9676d4 50%, #7556ba)",
+      "--sel-bg": "linear-gradient(160deg, #f0eafb, #ddd1f4)",
+      "--step-bg": "#e9e1f8",
+      "--tape": "rgba(205, 188, 238, 0.72)",
+      "--frame-a": "rgba(122, 96, 176, 0.42)",
+      "--frame-c": "rgba(104, 80, 160, 0.6)",
+    },
+  },
+  {
+    id: "noir",
+    name: "Midnight Gild",
+    short: "G",
+    pattern: patternNoir,
+    vars: {
+      "--env-bg": "#232c4d",
+      "--taupe": "#b9c3e4",
+      "--taupe-deep": "#f2e6c4",
+      "--font-serif": '"Cinzel", "Playfair Display", Georgia, serif',
+      "--font-sans": '"Montserrat", "Jost", ui-sans-serif, sans-serif',
+      "--ink": "#293152",
+      "--ink-soft": "#7f89a8",
+      "--rose": "#c09a4c",
+      "--rose-deep": "#976f28",
+      "--rose-soft": "#f1e6ca",
+      "--line": "#e4d5ad",
+      "--paper": "#fbf7ee",
+      "--band-bg": "#283258",
+      "--band-a": "rgba(48, 60, 106, 0.94)",
+      "--band-b": "rgba(35, 44, 82, 0.94)",
+      "--band-c": "rgba(26, 32, 64, 0.94)",
+      "--hv-a": "rgba(18, 24, 52, 0.5)",
+      "--hv-b": "rgba(12, 16, 40, 0.8)",
+      "--qv-a": "rgba(24, 32, 66, 0.55)",
+      "--qv-b": "rgba(26, 33, 64, 0.65)",
+      "--btn-bg": "linear-gradient(140deg, #b08a3e, #8a652a)",
+      "--acc-bg": "linear-gradient(140deg, #e0b85e, #c79c42 50%, #a37b2e)",
+      "--sel-bg": "linear-gradient(160deg, #fbf1da, #f0e1bd)",
+      "--step-bg": "#f3e8cc",
+      "--tape": "rgba(216, 188, 128, 0.5)",
+      "--frame-a": "rgba(201, 162, 90, 0.5)",
+      "--frame-c": "rgba(206, 170, 102, 0.65)",
+    },
+  },
+  {
+    id: "wine",
+    name: "Velvet Wine",
+    short: "W",
+    pattern: patternWine,
+    vars: {
+      "--env-bg": "#6f2436",
+      "--taupe": "#e8c3cd",
+      "--taupe-deep": "#fbe9ee",
+      "--font-serif": '"Italiana", "Playfair Display", Georgia, serif',
+      "--font-sans": '"Manrope", "Jost", ui-sans-serif, sans-serif',
+      "--ink": "#4b1f30",
+      "--ink-soft": "#98616f",
+      "--rose": "#c04a67",
+      "--rose-deep": "#94314a",
+      "--rose-soft": "#f5d5dd",
+      "--line": "#e7b8c5",
+      "--paper": "#fdf7f8",
+      "--band-bg": "#7e2f49",
+      "--band-a": "rgba(146, 54, 82, 0.94)",
+      "--band-b": "rgba(122, 41, 65, 0.94)",
+      "--band-c": "rgba(98, 30, 53, 0.94)",
+      "--hv-a": "rgba(86, 20, 42, 0.44)",
+      "--hv-b": "rgba(56, 12, 28, 0.78)",
+      "--qv-a": "rgba(128, 38, 64, 0.52)",
+      "--qv-b": "rgba(90, 23, 48, 0.62)",
+      "--btn-bg": "linear-gradient(140deg, #8a2547, #621731)",
+      "--acc-bg": "linear-gradient(140deg, #dd6b8c, #c2496c 50%, #a03a56)",
+      "--sel-bg": "linear-gradient(160deg, #fce9ee, #f6d3dc)",
+      "--step-bg": "#f9dee6",
+      "--tape": "rgba(236, 158, 180, 0.5)",
+      "--frame-a": "rgba(176, 60, 95, 0.45)",
+      "--frame-c": "rgba(190, 62, 100, 0.62)",
+    },
+  },
+];
