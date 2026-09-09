@@ -1,9 +1,21 @@
 import srLogoDark from "@/assets/sr-logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import sr2 from "@/assets/sr-2.webp";
-import sr3 from "@/assets/sr-3.webp";
-import sr4 from "@/assets/sr-4.webp";
+// import sr2 from "@/assets/sr-2.webp";
+// import sr3 from "@/assets/sr-3.webp";
+// import sr4 from "@/assets/sr-4.webp";
+
+import bright_lights_warm_love from "@/assets/bright-lights-warm-love.webp";
+import fantastic_four from "@/assets/fantastic-four.webp";
+import flowers_for_a_lasting_love from "@/assets/flowers-for-a-lasting-love.webp";
+import never_letting_go from "@/assets/never-letting-go.webp";
+import our_favorite_love_story from "@/assets/our-favorite-love-story.webp";
+import she_said_yes_again_and_again from "@/assets/she-said-yes-again-and-again.webp";
+import silver_looks_good_on_us from "@/assets/silver-looks-good-on-us.webp";
+import to_every_sunset_together from "@/assets/to-every-sunset-together.webp";
+import where_it_all_began from "@/assets/where-it-all-began.webp";
+
+import noura from "@/assets/noura-1.webp";
 import {
   ChevronDown,
   Heart,
@@ -20,27 +32,69 @@ import heroSection from "@/assets/sr-5.webp";
 const HERO_IMG = heroSection;
 const FLORAL_IMG =
   "https://images.pexels.com/photos/13656187/pexels-photo-13656187.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200";
-const VENUE_IMG =
-  "https://images.pexels.com/photos/25300244/pexels-photo-25300244.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200";
+const VENUE_IMG = noura;
 const MOMENTS = [
   {
-    img: sr2,
-    alt: "Anniversary rings resting in a heart",
-    caption: "Twenty-five years, one promise",
+    img: bright_lights_warm_love,
+    alt: "Bright lights, warm love.",
+    caption: "Bright lights, warm love.",
     tilt: "-2.6deg",
     d: ".05s",
   },
   {
-    img: sr3,
-    alt: "Champagne glasses raised in a toast",
-    caption: "To every sunrise together",
+    img: fantastic_four,
+    alt: "Fantastic four",
+    caption: "Fantastic four!",
     tilt: "1.8deg",
     d: ".16s",
   },
   {
-    img: sr4,
-    alt: "A celebratory tulip bouquet",
+    img: flowers_for_a_lasting_love,
+    alt: "Flowers for a lasting love",
     caption: "Flowers for a lasting love",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+  {
+    img: never_letting_go,
+    alt: "Never letting go",
+    caption: "Never letting go",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+  {
+    img: our_favorite_love_story,
+    alt: "Our favorite love story",
+    caption: "Our favorite love story",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+  {
+    img: she_said_yes_again_and_again,
+    alt: "She said yes, again and again",
+    caption: "She said yes, again and again",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+  {
+    img: silver_looks_good_on_us,
+    alt: "Silver looks good on us",
+    caption: "Silver looks good on us.",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+
+  {
+    img: to_every_sunset_together,
+    alt: "To every sunset together",
+    caption: "To every sunset together",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+  {
+    img: where_it_all_began,
+    alt: "Where it all began",
+    caption: "Where it all began",
     tilt: "-1.6deg",
     d: ".27s",
   },
@@ -54,25 +108,25 @@ const JOURNEY = [
   },
   {
     date: "October 2001",
-    title: "A life in full",
+    title: "Two hearts one promise",
     text: "We exchanged rings and hearts forever.",
     d: ".15s",
   },
   {
     date: "December 2001",
-    title: "A silver celebration",
+    title: "A celebration of commitment",
     text: "Under a thousand fairy lights, We finally tied a knot  for a lifetime.",
     d: ".25s",
   },
   {
     date: "July 2003 ",
-    title: "Together we celebrate",
+    title: " Little princess arrives",
     text: "Blessed with a little angel who filled our life with happiness _khushi",
     d: ".35s",
   },
   {
     date: "May 2005",
-    title: "Together we celebrate",
+    title: "Happiness Doubled",
     text: "Beautiful gift  by God to us- paarth.",
     d: ".35s",
   },
@@ -86,7 +140,7 @@ const JOURNEY = [
 
 const VENUE_NAME = "Noura Chandigarh - The Green Escape";
 const VENUE_ADDR = "Near Ramgarh fort,  SAS Nagar, Chandigarh, India";
-const MAPS_URL = `https://share.google/3BVla34oZgAiPlCbh`;
+const MAPS_URL = `https://share.google/w669jLCd5p3TOxEoV`;
 const ANNIVERSARY_DATE = new Date("2026-12-08T20:00:00");
 
 /** scroll-reveal delay helper */
@@ -213,14 +267,15 @@ export default function Invitation({
         <div className="iv-hero-veil" />
         <div className="iv-hero-copy">
           <p className="iv-kicker rv" style={rv(".1s")}>
-            Celebrating twenty-five years together
+            {/* Celebrating twenty-five years together */}
           </p>
           <h1 className="iv-names serif rv" style={rv(".25s")}>
             Sachin <br />& <br /> Rukman
           </h1>
           <div className="iv-date rv" style={rv(".4s")}>
             <Ornament className="orn light" />
-            <p>Tuesday &middot; December 08, 2026</p>
+            <p>Tuesday</p>
+            <p>December 08, 2026</p>
             <Ornament className="orn light" flip />
           </div>
         </div>
@@ -247,7 +302,7 @@ export default function Invitation({
             </div>
           ))}
         </div>
-        <p className="iv-count-sub">until we celebrate 25 years</p>
+        <p className="iv-count-sub">until we celebrate 25 years of love</p>
       </section>
 
       {/* ================= INVITATION TEXT ================= */}
@@ -288,7 +343,9 @@ export default function Invitation({
       {/* ================= MOMENTS GALLERY ================= */}
       <section className="iv-moments">
         <div className="iv-sec" style={{ paddingBottom: 0 }}>
-          <p className="iv-kicker rv">Keepsakes</p>
+          <p className="iv-kicker rv">
+            {/* Keepsakes */}
+          </p>
           <h2 className="iv-sec-title serif rv" style={rv(".08s")}>
             Moments in bloom
           </h2>
@@ -522,7 +579,8 @@ export default function Invitation({
           <span>R</span>
         </div> */}
         <p className="iv-foot-names serif">Sachin &amp; Rukman</p>
-        <p className="iv-foot-date">25'th Anniversary &middot; 08 &middot; 12 &middot; 2026</p>
+        <p className="iv-foot-date">25'th Anniversary</p>
+        <p className="iv-foot-date2">08 &middot; 12 &middot; 2026</p>
         <button type="button" className="iv-btn ghost" onClick={onSeal}>
           <RotateCcw size={14} />
           Seal the envelope again

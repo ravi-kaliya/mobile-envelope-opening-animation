@@ -14,7 +14,7 @@ type InvitePhase = "hidden" | "shown" | "leaving";
 export default function EnvelopeScreen() {
   const [open, setOpen] = useState(false);
   const [invite, setInvite] = useState<InvitePhase>("hidden");
-  const [themeIdx, setThemeIdx] = useState(0);
+  const [themeIdx, setThemeIdx] = useState(4);
   const theme = THEMES[themeIdx];
   const timers = useRef<number[]>([]);
 
@@ -91,7 +91,7 @@ export default function EnvelopeScreen() {
             </div>
 
             {/* Envelope style picker — 5 patterns */}
-            <div className="theme-picker" role="tablist" aria-label="Envelope style">
+            {/* <div className="theme-picker" role="tablist" aria-label="Envelope style">
               <span className="tp-label serif">Choose a style</span>
               <div className="tp-row">
                 {THEMES.map((t, i) => (
@@ -115,7 +115,7 @@ export default function EnvelopeScreen() {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Bottom controls */}
             <div className="controls">
@@ -169,12 +169,12 @@ export default function EnvelopeScreen() {
             }}
           >
             <div className="flap-sheen" aria-hidden="true" />
-            <div className="flap-label">
+            {/* <div className="flap-label">
               <Ornament className="orn sm" />
               <p className="flap-small">Our 25th Anniversary of</p>
               <p className="flap-names serif">Sachin &amp; Rukman</p>
               <Ornament className="orn sm" flip />
-            </div>
+            </div> */}
             {/* QR corner — printed on the flap */}
             <button
               type="button"
