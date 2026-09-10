@@ -11,6 +11,8 @@ import "./envelope.css";
 
 type InvitePhase = "hidden" | "shown" | "leaving";
 
+const ENVELOPE_READ_HOLD_MS = 3_000;
+
 export default function EnvelopeScreen() {
   const [open, setOpen] = useState(false);
   const [invite, setInvite] = useState<InvitePhase>("hidden");
@@ -27,8 +29,8 @@ export default function EnvelopeScreen() {
     if (open) return;
     setOpen(true);
     clearTimers();
-    /* The invitation sheet rises once the flap has swung open */
-    timers.current.push(window.setTimeout(() => setInvite("shown"), 1450));
+    /* Keep the revealed monogram and date visible long enough to read. */
+    timers.current.push(window.setTimeout(() => setInvite("shown"), ENVELOPE_READ_HOLD_MS));
   };
 
   const sealEnvelope = () => {
@@ -71,13 +73,15 @@ export default function EnvelopeScreen() {
 
             {/* Revealed monogram — hidden beneath the lowered flap until opened */}
             <div className="reveal" aria-hidden={!open}>
-              <div className="mono-ring serif">
-                <span>S</span>
-                <span className="dot" />
-                <span>R</span>
-              </div>
+            <img
+                src={srLogoDark}
+                alt="wax seal"
+                className="block h-30 w-30 rounded-full object-cover drop-shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+              // aria-hidden={opened}
+              />
               <p className="save">25 Years of Love</p>
               <p className="date serif">08&nbsp;&middot;&nbsp;12&nbsp;&middot;&nbsp;2026</p>
+              <p className="date serif">08:00 PM</p>
             </div>
 
             {/* "You are invited" block — printed on the envelope body */}

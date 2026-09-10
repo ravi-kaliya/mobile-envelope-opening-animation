@@ -276,6 +276,7 @@ export default function Invitation({
             <Ornament className="orn light" />
             <p>Tuesday</p>
             <p>December 08, 2026</p>
+            <p>08:00 PM</p>
             <Ornament className="orn light" flip />
           </div>
         </div>
@@ -358,7 +359,7 @@ export default function Invitation({
               style={{ ...rv(m.d), ["--tilt" as string]: m.tilt }}
             >
               <img src={m.img} alt={m.alt} loading="lazy" />
-              <figcaption className="serif">{m.caption}</figcaption>
+              <p className="iv-script serif text-center pb-0 text-sm! font-bold!">{m.caption}</p>
             </figure>
           ))}
         </div>
@@ -581,6 +582,7 @@ export default function Invitation({
         <p className="iv-foot-names serif">Sachin &amp; Rukman</p>
         <p className="iv-foot-date">25'th Anniversary</p>
         <p className="iv-foot-date2">08 &middot; 12 &middot; 2026</p>
+        <p className="iv-foot-date2">08:00 PM</p>
         <button type="button" className="iv-btn ghost" onClick={onSeal}>
           <RotateCcw size={14} />
           Seal the envelope again
