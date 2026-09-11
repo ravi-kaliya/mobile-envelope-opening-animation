@@ -258,14 +258,13 @@ export default function Invitation({
       {/* ===== Atmosphere: drift bokeh + falling petals ===== */}
       <FallingLeaves />
 
-      {/* ===== Stationery frame: double pink outline + floral corners ===== */}
-      <StationeryFrame />
-
       {/* ===== Scroll progress ribbon ===== */}
       <span className="iv-progress" aria-hidden="true" />
 
       {/* ================= HERO ================= */}
       <header className="iv-hero">
+        {/* ===== Stationery frame around the first-screen image ===== */}
+        <StationeryFrame />
         <div className="iv-hero-media">
           <img className="iv-hero-img" src={HERO_IMG} alt="Sachin and Rukman celebrating together" />
         </div>
@@ -285,7 +284,7 @@ export default function Invitation({
             <Ornament className="orn light" flip />
           </div>
           <p
-          className="iv-names text-[30px]! mb-0! serif rv"
+          className="iv-names text-[30px]! mb-0! mt-7! serif rv"
           style={{
             // position: "fixed",
             // bottom: "3.50rem",

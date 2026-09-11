@@ -71,7 +71,7 @@
 
 /* ---------------- Stationery frame (double pink outline + floral corners) ---------------- */
 .frame {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 30;
   pointer-events: none;
@@ -205,7 +205,7 @@
 /* ---------------- Hero ---------------- */
 .iv-hero {
   position: relative;
-  height: 770px;
+  height: 100dvh;
   min-height: 480px;
   overflow: hidden;
   display: flex;
@@ -222,8 +222,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 22%;
-  transform: translate3d(0, var(--px, 0px), 0) scale(1.18);
+  object-position: center center;
+  transform: translate3d(0, var(--px, 0px), 0) scale(1.02);
   will-change: transform;
 }
 @keyframes heroZoom {
@@ -241,7 +241,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 0 24px calc(14svh + env(safe-area-inset-bottom, 0px));
+  padding: 0 24px calc(11svh + env(safe-area-inset-bottom, 0px));
   text-align: center;
   color: #fff;
   transform: translate3d(0, calc(var(--ph, 0px) * -1), 0);
@@ -304,7 +304,7 @@
   position: absolute;
   z-index: 1;
   left: 50%;
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
