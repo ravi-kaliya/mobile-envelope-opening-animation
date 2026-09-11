@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { Heart, Music2, QrCode, RotateCcw, Sparkles } from "lucide-react";
+import {
+  Heart,
+  Pause,
+  Play,
+  RotateCcw,
+  SkipBack,
+  SkipForward,
+  Sparkles,
+} from "lucide-react";
 import Ornament from "./Ornament";
 import srLogoDark from "@/assets/sr-logo-dark.png";
 // import WaxSeal from "./WaxSeal";
@@ -12,13 +20,34 @@ import "./envelope.css";
 type InvitePhase = "hidden" | "shown" | "leaving";
 
 const ENVELOPE_READ_HOLD_MS = 3_000;
+type Song =
+  | { title: string; localSrc: string; remoteSrc?: string }
+  | { title: string; localSrc?: string; remoteSrc: string };
+
+const SONGS = [
+  // {
+  //   title: "Moonlit Promise",
+  //   localSrc: "/assets/moonlit-promise.mp3",
+  // },
+  // {
+  //   title: "Forever Together",
+  //   remoteSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3",
+  // },
+  {
+    title: "My Local Song",
+    localSrc: "/assets/sr-song.mp3",
+  },
+] satisfies Song[];
 
 export default function EnvelopeScreen() {
   const [open, setOpen] = useState(false);
   const [invite, setInvite] = useState<InvitePhase>("hidden");
-  const [themeIdx, setThemeIdx] = useState(4);
+  const [themeIdx] = useState(4);
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const [songIndex, setSongIndex] = useState(0);
   const theme = THEMES[themeIdx];
   const timers = useRef<number[]>([]);
+  const musicRef = useRef<HTMLAudioElement>(null);
 
   const clearTimers = () => {
     timers.current.forEach((id) => window.clearTimeout(id));
@@ -28,6 +57,10 @@ export default function EnvelopeScreen() {
   const openEnvelope = () => {
     if (open) return;
     setOpen(true);
+    const music = musicRef.current;
+    if (music) {
+      void music.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
+    }
     clearTimers();
     /* Keep the revealed monogram and date visible long enough to read. */
     timers.current.push(window.setTimeout(() => setInvite("shown"), ENVELOPE_READ_HOLD_MS));
@@ -37,6 +70,43 @@ export default function EnvelopeScreen() {
     clearTimers();
     setOpen(false);
     setInvite("hidden");
+    musicRef.current?.pause();
+    setMusicPlaying(false);
+  };
+
+  const toggleMusic = () => {
+    const music = musicRef.current;
+    if (!music) return;
+    if (music.paused) {
+      void music.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
+    } else {
+      music.pause();
+      setMusicPlaying(false);
+    }
+  };
+
+  const getSongSource = (song: Song) => song.localSrc ?? song.remoteSrc ?? "";
+
+  const switchSong = (direction: number) => {
+    const nextIndex = (songIndex + direction + SONGS.length) % SONGS.length;
+    const music = musicRef.current;
+    setSongIndex(nextIndex);
+    if (!music) return;
+
+    music.src = getSongSource(SONGS[nextIndex]);
+    music.load();
+    void music.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
+  };
+
+  const useRemoteFallback = () => {
+    const music = musicRef.current;
+    const song = SONGS[songIndex];
+    const remoteSrc =
+      "remoteSrc" in song && typeof song.remoteSrc === "string" ? song.remoteSrc : undefined;
+    if (!music || !remoteSrc || music.src.endsWith(remoteSrc)) return;
+    music.src = remoteSrc;
+    music.load();
+    void music.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
   };
 
   const closeInvite = () => {
@@ -46,7 +116,10 @@ export default function EnvelopeScreen() {
     timers.current.push(window.setTimeout(() => setInvite("hidden"), 680));
   };
 
-  useEffect(() => clearTimers, []);
+  useEffect(() => () => {
+    clearTimers();
+    musicRef.current?.pause();
+  }, []);
 
   /* Preload every theme pattern so switching styles is instant */
   useEffect(() => {
@@ -65,6 +138,13 @@ export default function EnvelopeScreen() {
 
   return (
     <div className={`env-screen${open ? " is-open" : ""}`} style={style}>
+      <audio
+        ref={musicRef}
+        preload="none"
+        src={getSongSource(SONGS[songIndex])}
+        onError={useRemoteFallback}
+        onEnded={() => switchSong(1)}
+      />
       {showEnvelope && (
         <>
           {/* ===== Envelope face (full screen, ornate blush pattern) ===== */}
@@ -145,10 +225,44 @@ export default function EnvelopeScreen() {
             </div>
 
             {/* Music corner */}
-            <button type="button" className="corner corner-br" aria-label="Music">
-              <span className="pulse-ring" aria-hidden="true" />
-              <Music2 size={18} strokeWidth={1.5} />
-            </button>
+            <div className="music-switcher" aria-label={`Music: ${SONGS[songIndex].title}`}>
+              <button
+                type="button"
+                className="music-skip"
+                aria-label="Previous song"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  switchSong(-1);
+                }}
+              >
+                <SkipBack size={15} />
+              </button>
+              <button
+                type="button"
+                className={`corner${musicPlaying ? " is-playing" : ""}`}
+                aria-label={musicPlaying ? "Pause music" : "Play romantic music"}
+                aria-pressed={musicPlaying}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMusic();
+                }}
+              >
+                <span className="pulse-ring" aria-hidden="true" />
+                {musicPlaying ? <Pause size={18} strokeWidth={1.5} /> : <Play size={18} strokeWidth={1.5} />}
+              </button>
+              {/* <span className="music-track-name">{SONGS[songIndex].title}</span> */}
+              <button
+                type="button"
+                className="music-skip"
+                aria-label="Next song"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  switchSong(1);
+                }}
+              >
+                <SkipForward size={15} />
+              </button>
+            </div>
 
             {/* Floating gold dust */}
             <span className="mote m1" aria-hidden="true" />
@@ -180,14 +294,14 @@ export default function EnvelopeScreen() {
               <Ornament className="orn sm" flip />
             </div> */}
             {/* QR corner — printed on the flap */}
-            <button
+            {/* <button
               type="button"
               className="corner corner-tr"
               aria-label="Invitation QR"
               onClick={(e) => e.stopPropagation()}
             >
               <QrCode size={19} strokeWidth={1.5} />
-            </button>
+            </button> */}
           </div>
 
           {/* ===== Gold wax seal ===== */}
@@ -211,7 +325,12 @@ export default function EnvelopeScreen() {
 
       {/* ===== Invitation sheet that rises after the flap opens ===== */}
       {invite !== "hidden" && (
-        <Invitation leaving={invite === "leaving"} onSeal={closeInvite} />
+        <Invitation
+          leaving={invite === "leaving"}
+          onSeal={closeInvite}
+          musicPlaying={musicPlaying}
+          onToggleMusic={toggleMusic}
+        />
       )}
     </div>
   );

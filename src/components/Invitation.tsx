@@ -20,6 +20,7 @@ import {
   ChevronDown,
   Heart,
   MapPin,
+  Music2,
   RotateCcw,
 } from "lucide-react";
 import Ornament from "./Ornament";
@@ -121,13 +122,13 @@ const JOURNEY = [
   {
     date: "July 2003 ",
     title: " Little princess arrives",
-    text: "Blessed with a little angel who filled our life with happiness _khushi",
+    text: "Blessed with a little angel who filled our life with happiness -khushi",
     d: ".35s",
   },
   {
     date: "May 2005",
     title: "Happiness Doubled",
-    text: "Beautiful gift  by God to us- paarth.",
+    text: "Beautiful gift  by God to us -paarth.",
     d: ".35s",
   },
   {
@@ -195,9 +196,13 @@ function useScrollReveal(
 export default function Invitation({
   leaving,
   onSeal,
+  musicPlaying,
+  onToggleMusic,
 }: {
   leaving: boolean;
   onSeal: () => void;
+  musicPlaying: boolean;
+  onToggleMusic: () => void;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [entered, setEntered] = useState(false);
@@ -279,7 +284,30 @@ export default function Invitation({
             <p>08:00 PM</p>
             <Ornament className="orn light" flip />
           </div>
+          <p
+          className="iv-names text-[30px]! mb-0! serif rv"
+          style={{
+            // position: "fixed",
+            // bottom: "3.50rem",
+            // left: "50%",
+            // zIndex: 100,
+            width: "100%",
+            // margin: 0,
+            // transform: "translateX(-50%)",
+            color: "#fff",
+            opacity: 1,
+            // visibility: "visible",
+            // display: "block",
+            // fontSize: "50px",
+            // lineHeight: 1.1,
+            textAlign: "center",
+            // pointerEvents: "none",
+          }}
+        >
+          The Countdown Begins
+        </p>
         </div>
+        
         <div className="iv-scrollcue">
           <span>Scroll</span>
           <ChevronDown size={16} />
@@ -312,9 +340,9 @@ export default function Invitation({
           <Bloom />
         </span>
         <Ornament className="orn rv" />
-        <p className="iv-script serif rv" style={rv(".08s")}>
+        {/* <p className="iv-script serif rv" style={rv(".08s")}>
           request the honour of your presence
-        </p>
+        </p> */}
         <h2 className="iv-sec-title serif rv" style={rv(".16s")}>
           As we celebrate this special day
         </h2>
@@ -401,7 +429,6 @@ export default function Invitation({
         <span className="wm wm-venue">
           <Sprig />
         </span>
-        <p className="iv-kicker rv">Where</p>
         <h2 className="iv-sec-title serif rv" style={rv(".08s")}>
           The Venue
         </h2>
@@ -579,15 +606,28 @@ export default function Invitation({
           <Heart size={11} fill="currentColor" strokeWidth={0} />
           <span>R</span>
         </div> */}
-        <p className="iv-foot-names serif">Sachin &amp; Rukman</p>
-        <p className="iv-foot-date">25'th Anniversary</p>
-        <p className="iv-foot-date2">08 &middot; 12 &middot; 2026</p>
+                <p className="iv-foot-names serif text-lg!">Your gracious presence would be our greatest honour and joy.</p>
+        <p className="iv-foot-date">December 8, 2026</p>
         <p className="iv-foot-date2">08:00 PM</p>
         <button type="button" className="iv-btn ghost" onClick={onSeal}>
           <RotateCcw size={14} />
           Seal the envelope again
         </button>
-        <p className="iv-fine">Made by Coderlala Technologies</p>
+        {/* <button
+          type="button"
+          className="iv-btn ghost"
+          onClick={onToggleMusic}
+          aria-pressed={musicPlaying}
+        >
+          <Music2 size={14} />
+          {musicPlaying ? "Pause romantic music" : "Play romantic music"}
+        </button> */}
+        <p className="iv-fine">
+          Made by{' '}
+          <a href="https://coderlala.com" target="_blank" rel="noreferrer">
+            Coderlala Technologies
+          </a>
+        </p>
       </footer>
     </div>
   );

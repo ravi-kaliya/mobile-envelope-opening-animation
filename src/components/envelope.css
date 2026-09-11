@@ -41,9 +41,8 @@
     top: 50%;
     bottom: auto;
     left: 50%;
-    width: auto;
-    height: min(856px, 92vh);
-    aspect-ratio: 400 / 856;
+    width: 400px;
+    height: 856px;
     max-width: 92vw;
     transform: translate(-50%, -50%);
     border: 12px solid #241422;
@@ -295,7 +294,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(44px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
   z-index: 20;
   display: flex;
   justify-content: center;
@@ -360,6 +359,44 @@
 .corner-br {
   bottom: calc(26px + env(safe-area-inset-bottom, 0px));
   right: 18px;
+}
+.music-switcher {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(122, 86, 68, 0.8);
+}
+.music-switcher .corner {
+  position: relative;
+  inset: auto;
+  flex: 0 0 44px;
+  animation: none;
+}
+.music-skip {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: inherit;
+  border: 1px solid rgba(122, 86, 68, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+}
+.music-track-name {
+  max-width: 118px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--serif);
+  font-size: 0.72rem;
+  color: rgba(92, 59, 48, 0.82);
 }
 .pulse-ring {
   position: absolute;
