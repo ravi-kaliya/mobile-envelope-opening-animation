@@ -1,9 +1,7 @@
 import srLogoDark from "@/assets/sr-logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-// import sr2 from "@/assets/sr-2.webp";
-// import sr3 from "@/assets/sr-3.webp";
-// import sr4 from "@/assets/sr-4.webp";
+
 
 import bright_lights_warm_love from "@/assets/bright-lights-warm-love.webp";
 import fantastic_four from "@/assets/fantastic-four.webp";
@@ -20,7 +18,6 @@ import {
   ChevronDown,
   Heart,
   MapPin,
-  Music2,
   RotateCcw,
 } from "lucide-react";
 import Ornament from "./Ornament";
@@ -30,24 +27,34 @@ import "./invite.css";
 import heroSection from "@/assets/sr-5.webp";
 
 /* ------- Live CDN imagery ------- */
-const HERO_IMG = heroSection;
+const HERO_IMAGES = [
+  { src: heroSection, alt: "A joyful family moment" },
+  // { src: bright_lights_warm_love, alt: "Bright lights and warm love" },
+  // { src: flowers_for_a_lasting_love, alt: "Flowers for a lasting love" },
+  // { src: never_letting_go, alt: "Never letting go" },
+  { src: our_favorite_love_story, alt: "Our favorite love story" },
+  // { src: she_said_yes_again_and_again, alt: "She said yes again and again" },
+  // { src: silver_looks_good_on_us, alt: "Silver looks good on us" },
+  // { src: to_every_sunset_together, alt: "Together through every sunset" },
+  // { src: where_it_all_began, alt: "Where it all began" },
+];
 const FLORAL_IMG =
   "https://images.pexels.com/photos/13656187/pexels-photo-13656187.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200";
 const VENUE_IMG = noura;
 const MOMENTS = [
   {
-    img: bright_lights_warm_love,
-    alt: "Bright lights, warm love.",
-    caption: "Bright lights, warm love.",
-    tilt: "-2.6deg",
-    d: ".05s",
+    img: silver_looks_good_on_us,
+    alt: "Silver looks good on us",
+    caption: "Silver looks good on us.",
+    tilt: "-1.6deg",
+    d: ".27s",
   },
   {
-    img: fantastic_four,
-    alt: "Fantastic four",
-    caption: "Fantastic four!",
-    tilt: "1.8deg",
-    d: ".16s",
+    img: she_said_yes_again_and_again,
+    alt: "She said yes, again and again",
+    caption: "She said yes, again and again",
+    tilt: "-1.6deg",
+    d: ".27s",
   },
   {
     img: flowers_for_a_lasting_love,
@@ -64,31 +71,16 @@ const MOMENTS = [
     d: ".27s",
   },
   {
+    img: bright_lights_warm_love,
+    alt: "Bright lights, warm love.",
+    caption: "Bright lights, warm love.",
+    tilt: "-2.6deg",
+    d: ".05s",
+  },
+  {
     img: our_favorite_love_story,
     alt: "Our favorite love story",
     caption: "Our favorite love story",
-    tilt: "-1.6deg",
-    d: ".27s",
-  },
-  {
-    img: she_said_yes_again_and_again,
-    alt: "She said yes, again and again",
-    caption: "She said yes, again and again",
-    tilt: "-1.6deg",
-    d: ".27s",
-  },
-  {
-    img: silver_looks_good_on_us,
-    alt: "Silver looks good on us",
-    caption: "Silver looks good on us.",
-    tilt: "-1.6deg",
-    d: ".27s",
-  },
-
-  {
-    img: to_every_sunset_together,
-    alt: "To every sunset together",
-    caption: "To every sunset together",
     tilt: "-1.6deg",
     d: ".27s",
   },
@@ -98,6 +90,20 @@ const MOMENTS = [
     caption: "Where it all began",
     tilt: "-1.6deg",
     d: ".27s",
+  },
+  {
+    img: to_every_sunset_together,
+    alt: "To every sunset together",
+    caption: "To every sunset together",
+    tilt: "-1.6deg",
+    d: ".27s",
+  },
+  {
+    img: fantastic_four,
+    alt: "Fantastic four",
+    caption: "Fantastic four!",
+    tilt: "1.8deg",
+    d: ".16s",
   },
 ];
 const JOURNEY = [
@@ -206,6 +212,7 @@ export default function Invitation({
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [entered, setEntered] = useState(false);
+  const [heroIndex, setHeroIndex] = useState(0);
   const t = useCountdown(ANNIVERSARY_DATE);
 
 
@@ -215,6 +222,19 @@ export default function Invitation({
       requestAnimationFrame(() => setEntered(true))
     );
     return () => cancelAnimationFrame(id);
+  }, []);
+
+  useEffect(() => {
+    HERO_IMAGES.forEach(({ src }) => {
+      const image = new Image();
+      image.src = src;
+    });
+
+    const interval = window.setInterval(() => {
+      setHeroIndex((index) => (index + 1) % HERO_IMAGES.length);
+    }, 5_000);
+
+    return () => window.clearInterval(interval);
   }, []);
 
   /* Scroll-driven parallax for hero + quote band */
@@ -266,12 +286,17 @@ export default function Invitation({
         {/* ===== Stationery frame around the first-screen image ===== */}
         <StationeryFrame />
         <div className="iv-hero-media">
-          <img className="iv-hero-img" src={HERO_IMG} alt="Sachin and Rukman celebrating together" />
+          <img
+            key={HERO_IMAGES[heroIndex].src}
+            className="iv-hero-img is-active"
+            src={HERO_IMAGES[heroIndex].src}
+            alt={HERO_IMAGES[heroIndex].alt}
+          />
         </div>
         <div className="iv-hero-veil" />
         <div className="iv-hero-copy">
           <p className="iv-kicker rv" style={rv(".1s")}>
-            {/* Celebrating twenty-five years together */}
+            Celebrating twenty-five years together
           </p>
           <h1 className="iv-names serif rv" style={rv(".25s")}>
             Sachin <br />& <br /> Rukman
@@ -283,28 +308,11 @@ export default function Invitation({
             <p>08:00 PM</p>
             <Ornament className="orn light" flip />
           </div>
-          <p
-          className="iv-names text-[30px]! mb-0! mt-7! serif rv"
-          style={{
-            // position: "fixed",
-            // bottom: "3.50rem",
-            // left: "50%",
-            // zIndex: 100,
-            width: "100%",
-            // margin: 0,
-            // transform: "translateX(-50%)",
-            color: "#fff",
-            opacity: 1,
-            // visibility: "visible",
-            // display: "block",
-            // fontSize: "50px",
-            // lineHeight: 1.1,
-            textAlign: "center",
-            // pointerEvents: "none",
-          }}
-        >
-          The Countdown Begins
-        </p>
+          <p className="iv-hero-tag rv" style={rv(".55s")}>
+            <span className="iv-hero-tag-line" aria-hidden="true" />
+            <span className="serif">The Countdown Begins</span>
+            <span className="iv-hero-tag-line" aria-hidden="true" />
+          </p>
         </div>
         
         <div className="iv-scrollcue">
@@ -346,10 +354,7 @@ export default function Invitation({
           As we celebrate this special day
         </h2>
         <p className="iv-body rv" style={rv(".24s")}>
-          Surrounded by  flowers, candle lights and the people we love the most  we wish to celebrate our beginings....
-          <br />
-          <br />
-          Join us for an evening of fun, laughter and togetherness
+          Surrounded by those who mean the most, we gather to celebrate 25 years of love, growth, and shared joy. <br /><br />Join us for an unforgettable evening filled with laughter, music, and togetherness!
         </p>
       </section>
 
@@ -370,7 +375,7 @@ export default function Invitation({
 
       {/* ================= MOMENTS GALLERY ================= */}
       <section className="iv-moments">
-        <div className="iv-sec" style={{ paddingBottom: 0 }}>
+        <div className="iv-sec pt-0!" style={{ paddingBottom: 0 }}>
           <p className="iv-kicker rv">
             {/* Keepsakes */}
           </p>

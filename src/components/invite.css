@@ -212,36 +212,54 @@
   align-items: flex-end;
   justify-content: center;
 }
+@media (min-width: 768px) {
+  .iv-hero {
+    height: 700px;
+  }
+}
 .iv-hero-media {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  animation: heroZoom 7s ease-out both;
 }
 .iv-hero-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  transform: translate3d(0, var(--px, 0px), 0) scale(1.02);
-  will-change: transform;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  transform: translate3d(0, var(--px, 0px), 0) scale(1.12);
+  will-change: opacity, transform;
 }
-@keyframes heroZoom {
-  from { transform: scale(1.16); }
-  to { transform: scale(1); }
+.iv-hero-img.is-active {
+  z-index: 1;
+  opacity: 1;
+  animation: heroKenBurns 5s ease-in-out infinite alternate;
+}
+@keyframes heroKenBurns {
+  from {
+    transform: translate3d(2%, var(--px, 0px), 0) scale(1.04);
+  }
+  to {
+    transform: translate3d(-2%, var(--px, 0px), 0) scale(1.12);
+  }
 }
 .iv-hero-veil {
   position: absolute;
   inset: 0;
+  z-index: 2;
   background:
-    linear-gradient(180deg, var(--hv-a, rgba(122, 42, 68, 0.36)), transparent 30%, transparent 46%, var(--hv-b, rgba(94, 31, 54, 0.72)) 100%),
-    radial-gradient(120% 70% at 50% 100%, var(--hv-glow, rgba(221, 107, 138, 0.28)), transparent 60%);
+    linear-gradient(180deg, var(--hv-a, rgba(35, 14, 24, 0.58)) 0%, rgba(24, 10, 18, 0.22) 34%, rgba(24, 10, 18, 0.42) 58%, var(--hv-b, rgba(31, 10, 20, 0.86)) 100%),
+    radial-gradient(120% 70% at 50% 100%, var(--hv-glow, rgba(103, 31, 57, 0.34)), transparent 64%);
 }
 .iv-hero-copy {
   position: relative;
-  z-index: 1;
+  z-index: 5;
   width: 100%;
-  padding: 0 24px calc(11svh + env(safe-area-inset-bottom, 0px));
+  padding: 0 24px 30px;
   text-align: center;
   color: #fff;
   transform: translate3d(0, calc(var(--ph, 0px) * -1), 0);
@@ -258,7 +276,7 @@
 }
 .iv-names {
   margin: 10px 0 16px;
-  font-size: 50px;
+  font-size:35px;
   font-weight: 500;
   line-height: 1.02;
   letter-spacing: 0.01em;
@@ -1141,7 +1159,11 @@
 @media (prefers-reduced-motion: reduce) {
   .invite { transition-duration: 0.3s; }
   .rv { transition-duration: 0.3s; }
-  .iv-hero-img { animation: none; }
+  .iv-hero-img {
+    transition: none;
+    animation: none !important;
+    transform: translate3d(0, var(--px, 0px), 0) scale(1.02);
+  }
   .leaves,
   .backdrop,
   .twinkle {
