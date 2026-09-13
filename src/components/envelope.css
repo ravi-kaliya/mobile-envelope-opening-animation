@@ -227,8 +227,8 @@
 
 .save {
   margin: 0;
-  font-size: 0.62rem;
-  font-weight: 500;
+  font-size: 1rem;
+  /* font-weight: 800; */
   letter-spacing: 0.46em;
   text-indent: 0.46em;
   text-transform: uppercase;
@@ -236,7 +236,8 @@
 }
 .date {
   margin: 0;
-  font-size: 1.12rem;
+  font-size: 1.32rem;
+  font-weight:700;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   color: var(--taupe-deep);

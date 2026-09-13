@@ -19,7 +19,7 @@ import "./envelope.css";
 
 type InvitePhase = "hidden" | "shown" | "leaving";
 
-const ENVELOPE_READ_HOLD_MS = 3_000;
+const ENVELOPE_READ_HOLD_MS = 5_000;
 type Song =
   | { title: string; localSrc: string; remoteSrc?: string }
   | { title: string; localSrc?: string; remoteSrc: string };
@@ -160,14 +160,14 @@ export default function EnvelopeScreen() {
               // aria-hidden={opened}
               />
               <p className="save">25 Years of Love</p>
-              <p className="date serif">08&nbsp;&middot;&nbsp;12&nbsp;&middot;&nbsp;2026</p>
+              <p className="date serif">December 8, 2026</p>
               <p className="date serif">08:00 PM</p>
             </div>
 
             {/* "You are invited" block — printed on the envelope body */}
             <div className="invited">
               <Ornament className="orn" />
-              <h1 className="invited-title serif">You Are Invited</h1>
+              <h1 className="invited-title serif">You Are Cordially Invited</h1>
               <Ornament className="orn" flip />
               <span className="invited-heart">
                 <Heart size={11} fill="currentColor" strokeWidth={0} />

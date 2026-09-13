@@ -2,6 +2,7 @@ import srLogoDark from "@/assets/sr-logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
+import bright_lights_warm_love2 from "@/assets/sr-5-1.webp";
 
 import bright_lights_warm_love from "@/assets/bright-lights-warm-love.webp";
 import fantastic_four from "@/assets/fantastic-four.webp";
@@ -70,8 +71,15 @@ const MOMENTS = [
     tilt: "-1.6deg",
     d: ".27s",
   },
+  // {
+  //   img: bright_lights_warm_love,
+  //   alt: "Bright lights, warm love.",
+  //   caption: "Bright lights, warm love.",
+  //   tilt: "-2.6deg",
+  //   d: ".05s",
+  // },
   {
-    img: bright_lights_warm_love,
+    img: bright_lights_warm_love2,
     alt: "Bright lights, warm love.",
     caption: "Bright lights, warm love.",
     tilt: "-2.6deg",
