@@ -366,7 +366,7 @@ export default function Invitation({
         </h2>
         <p className="iv-body rv font-bold!" style={rv(".24s")}>
 
-Surrounded by those who mean the most, we gather to celebrate 25 years of love, growth, and shared joy. 
+Surrounded by those who mean the most, we gather to celebrate 25 years of love, countless moments of joy, shared dreams and enduring bonds. 
 <br/>
 <br/>
 Join us for an unforgettable evening filled with laughter, music, and togetherness!
