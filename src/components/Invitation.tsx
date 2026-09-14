@@ -294,12 +294,15 @@ export default function Invitation({
         {/* ===== Stationery frame around the first-screen image ===== */}
         <StationeryFrame />
         <div className="iv-hero-media">
-          <img
-            key={HERO_IMAGES[heroIndex].src}
-            className="iv-hero-img is-active"
-            src={HERO_IMAGES[heroIndex].src}
-            alt={HERO_IMAGES[heroIndex].alt}
-          />
+          {HERO_IMAGES.map((image, index) => (
+            <img
+              key={image.src}
+              className={`iv-hero-img${index === heroIndex ? " is-active" : ""}`}
+              src={image.src}
+              alt={image.alt}
+              aria-hidden={index !== heroIndex}
+            />
+          ))}
         </div>
         <div className="iv-hero-veil" />
         <div className="iv-hero-copy">
@@ -358,11 +361,15 @@ export default function Invitation({
         {/* <p className="iv-script serif rv" style={rv(".08s")}>
           request the honour of your presence
         </p> */}
-        <h2 className="iv-sec-title serif rv" style={rv(".16s")}>
-          As we celebrate this special day
+        <h2 className="iv-sec-title font-bold! serif rv" style={rv(".16s")}>
+          We wish to celebrate our special day
         </h2>
-        <p className="iv-body rv" style={rv(".24s")}>
-          Surrounded by those who mean the most, we gather to celebrate 25 years of love, growth, and shared joy. <br /><br />Join us for an unforgettable evening filled with laughter, music, and togetherness!
+        <p className="iv-body rv font-bold!" style={rv(".24s")}>
+
+Surrounded by those who mean the most, we gather to celebrate 25 years of love, growth, and shared joy. 
+<br/>
+<br/>
+Join us for an unforgettable evening filled with laughter, music, and togetherness!
         </p>
       </section>
 
@@ -387,7 +394,7 @@ export default function Invitation({
           <p className="iv-kicker rv">
             {/* Keepsakes */}
           </p>
-          <h2 className="iv-sec-title serif rv" style={rv(".08s")}>
+          <h2 className="iv-sec-title font-bold! serif rv" style={rv(".08s")}>
             Moments in bloom
           </h2>
         </div>
@@ -416,7 +423,7 @@ export default function Invitation({
       {/* ================= OUR JOURNEY TIMELINE ================= */}
       <section className="iv-sec iv-journey">
         <p className="iv-kicker rv">Our Story</p>
-        <h2 className="iv-sec-title serif rv" style={rv(".08s")}>
+        <h2 className="iv-sec-title font-bold! serif rv" style={rv(".08s")}>
           The journey so far
         </h2>
         <div className="j-list">
@@ -441,7 +448,7 @@ export default function Invitation({
         <span className="wm wm-venue">
           <Sprig />
         </span>
-        <h2 className="iv-sec-title serif rv" style={rv(".08s")}>
+        <h2 className="iv-sec-title font-bold! serif rv" style={rv(".08s")}>
           The Venue
         </h2>
         <figure className="iv-venue-card rv" style={rv(".16s")}>

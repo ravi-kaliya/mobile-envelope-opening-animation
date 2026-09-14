@@ -202,30 +202,30 @@ export default function EnvelopeScreen() {
             </div> */}
 
             {/* Bottom controls */}
-            <div className="controls">
-              <button
-                type="button"
-                className="pill btn-undo"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  sealEnvelope();
-                }}
-              >
-                <RotateCcw size={15} strokeWidth={1.7} />
-                Undo
-              </button>
-              <button
-                type="button"
-                className="pill btn-reveal"
-                onClick={openEnvelope}
-              >
-                <Sparkles size={15} strokeWidth={1.7} />
-                Tap to Reveal
-              </button>
-            </div>
+              {/* <div className="controls">
+                <button
+                  type="button"
+                  className="pill btn-undo"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    sealEnvelope();
+                  }}
+                >
+                  <RotateCcw size={15} strokeWidth={1.7} />
+                  Undo
+                </button>
+                <button
+                  type="button"
+                  className="pill btn-reveal"
+                  onClick={openEnvelope}
+                >
+                  <Sparkles size={15} strokeWidth={1.7} />
+                  Tap to Reveal
+                </button>
+              </div> */}
 
             {/* Music corner */}
-            <div className="music-switcher" aria-label={`Music: ${SONGS[songIndex].title}`}>
+            {/* <div className="music-switcher" aria-label={`Music: ${SONGS[songIndex].title}`}>
               <button
                 type="button"
                 className="music-skip"
@@ -250,7 +250,7 @@ export default function EnvelopeScreen() {
                 <span className="pulse-ring" aria-hidden="true" />
                 {musicPlaying ? <Pause size={18} strokeWidth={1.5} /> : <Play size={18} strokeWidth={1.5} />}
               </button>
-              {/* <span className="music-track-name">{SONGS[songIndex].title}</span> */}
+              <span className="music-track-name">{SONGS[songIndex].title}</span>
               <button
                 type="button"
                 className="music-skip"
@@ -262,7 +262,7 @@ export default function EnvelopeScreen() {
               >
                 <SkipForward size={15} />
               </button>
-            </div>
+            </div> */}
 
             {/* Floating gold dust */}
             <span className="mote m1" aria-hidden="true" />

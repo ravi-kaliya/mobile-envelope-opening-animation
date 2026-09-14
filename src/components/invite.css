@@ -230,21 +230,21 @@
   object-fit: cover;
   object-position: center center;
   opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-  transform: translate3d(0, var(--px, 0px), 0) scale(1.12);
+  transition: opacity 1.8s ease-in-out;
+  transform: translate3d(0, var(--px, 0px), 0) scale(1.08);
   will-change: opacity, transform;
 }
 .iv-hero-img.is-active {
   z-index: 1;
   opacity: 1;
-  animation: heroKenBurns 5s ease-in-out infinite alternate;
+  animation: heroKenBurns 8s ease-in-out both;
 }
 @keyframes heroKenBurns {
   from {
-    transform: translate3d(2%, var(--px, 0px), 0) scale(1.04);
+    transform: translate3d(2%, var(--px, 0px), 0) scale(1.08);
   }
   to {
-    transform: translate3d(-2%, var(--px, 0px), 0) scale(1.12);
+    transform: translate3d(-2%, var(--px, 0px), 0) scale(1.16);
   }
 }
 .iv-hero-veil {
