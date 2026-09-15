@@ -2,7 +2,7 @@ import srLogoDark from "@/assets/sr-logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
-import bright_lights_warm_love2 from "@/assets/sr-5-1.webp";
+import sailing_through_life_together from "@/assets/sailing-through-life-together.webp";
 
 import bright_lights_warm_love from "@/assets/bright-lights-warm-love.webp";
 import fantastic_four from "@/assets/fantastic-four.webp";
@@ -79,9 +79,9 @@ const MOMENTS = [
   //   d: ".05s",
   // },
   {
-    img: bright_lights_warm_love2,
-    alt: "Bright lights, warm love.",
-    caption: "Bright lights, warm love.",
+    img: sailing_through_life_together,
+    alt: "Sailing through life together",
+    caption: "Sailing through life together",
     tilt: "-2.6deg",
     d: ".05s",
   },
