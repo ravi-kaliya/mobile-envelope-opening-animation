@@ -614,7 +614,7 @@ Join us for an unforgettable evening filled with laughter, music, and togetherne
 
       {/* ================= FOOTER ================= */}
       <footer className="iv-footer">
-        <p className="iv-foot-date">With the blessings of Almighty God & the love of our respected father Sh Sham  Sunder Jindal</p>
+        <p className="iv-foot-date">With the blessings of Almighty God & the love of our respected <br/>father Sh Sham  Sunder Jindal</p>
         <img
           src={srLogoDark}
           alt="wax seal"
