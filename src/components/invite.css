@@ -957,8 +957,9 @@
 .iv-foot-names {
   margin: 10px 0 0;
   font-style: italic;
-  font-size: 1.5rem;
-  color: var(--ink);
+  font-size: 1.2rem;
+  color: var(--rose-deep);
+  font-weight: 800;
 }
 .iv-foot-date {
   /* margin: 0 0 22px; */
@@ -969,7 +970,7 @@
 }
 .iv-foot-date2 {
   /* margin: 0 0 5px; */
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   /* letter-spacing: 0.4em; */
   /* text-indent: 0.4em; */
   color: var(--ink-soft);
@@ -1150,8 +1151,8 @@
 }
 .j-card p {
   margin: 0;
-  font-size: 0.74rem;
-  font-weight: 300;
+  font-size: 0.84rem;
+  font-weight: 500;
   line-height: 1.65;
   color: var(--ink-soft);
 }

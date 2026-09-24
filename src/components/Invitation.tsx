@@ -614,7 +614,7 @@ Join us for an unforgettable evening filled with laughter, music, and togetherne
 
       {/* ================= FOOTER ================= */}
       <footer className="iv-footer">
-        <p className="iv-foot-date">With the blessings of Almighty God & the love of our respected <br/>father Sh Sham  Sunder Jindal</p>
+        <p className="iv-foot-date2 font-bold!">With the blessings of Almighty God & the love of our respected <br/>father Sh Sham  Sunder Jindal</p>
         <img
           src={srLogoDark}
           alt="wax seal"
@@ -626,9 +626,9 @@ Join us for an unforgettable evening filled with laughter, music, and togetherne
           <Heart size={11} fill="currentColor" strokeWidth={0} />
           <span>R</span>
         </div> */}
-                <p className="iv-foot-names serif text-lg!">Your gracious presence would be our greatest honour and joy.</p>
-        <p className="iv-foot-date">December 8, 2026</p>
-        <p className="iv-foot-date2">08:00 PM</p>
+                <p className="iv-foot-names serif">Your gracious presence would be our greatest honour and joy.</p>
+        <p className="iv-foot-date font-bold!">December 8, 2026</p>
+        <p className="iv-foot-date2 font-bold!">08:00 PM</p>
         <button type="button" className="iv-btn ghost" onClick={onSeal}>
           <RotateCcw size={14} />
           Seal the envelope again
